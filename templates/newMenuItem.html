@@ -1,0 +1,52 @@
+<!--We are making small form with only one entry in the first input
+to create a new menu item name -->
+
+<!--In order to get data from a form, I will
+import requests from my flask library into my python code-->
+
+
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+<body>
+
+<h1>New Menu Item</h1>
+
+<div class = 'pane'>
+<form action="{{ url_for('newMenuItem', restaurant_id=restaurant_id )}}" method = 'post'>
+
+<dl>
+  <!--the <dl> is used with the <dt> and <dd> tags. The <dl> tag
+	 creates a list and serves as the container for <dt> and <dd> tags.
+	 The <dt> tag defines the term and the <dd> tag defines the
+	 description of the term-->
+	<dt>Name:</dt>
+		<dd><input type ='text' size='30' name='name'></dd>
+	<dt>Description:</dt>
+		<dd><textarea name = 'description' rows='5' cols='40' > </textarea></dd>
+	<dt>Price:</dt>
+		<dd><input type = 'text' size = '8' name='price'></dd>
+	<dt>Course:</dt>
+		<dd><input type ='radio' name='course' value='Appetizer'>Appetizer</dd>
+		<dd><input type ='radio' name='course' value='Entree'>Entree</dd>
+		<dd><input type ='radio' name='course' value='Dessert'>Dessert</dd>
+		<dd><input type ='radio' name='course' value='Beverage'>Beverage</dd>
+
+
+
+
+</dl>
+
+
+<input type='submit' value='Create'>
+
+</form>
+</div>
+
+</body>
+
+
+
+
+</html>

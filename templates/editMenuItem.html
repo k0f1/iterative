@@ -1,0 +1,70 @@
+<!--We are making small form with only one entry in the first input
+to edit menu item.
+Inside the form I going to call my edit menu item function.
+I also create a link with cancel to redirect me
+If I change my mind -->
+
+<!--In order to get data from a form, I will
+import requests from my flask library into my python code-->
+
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+	<body>
+
+<h1> Edit Menu Item </h1>
+
+<form action="{{ url_for('editMenuItem',restaurant_id = restaurant_id, menu_id=item.id)}}" method = 'post'> <!--Inside the form I will call my edit menu item function with appriopriate parameters as above-->
+
+<dl>
+  <!--the <dl> is used with the <dt> and <dd> tags. The <dl> tag
+	 creates a list and serves as the container for <dt> and <dd> tags.
+	 The <dt> tag defines the term and the <dd> tag defines the
+	 description of the term-->
+	<dt>Name:</dt>
+		<dd><input type ='text' size='30' name='name' placeholder = '{{item.name }}'></dd> <!--Using the placeholder attribute of html, I can have that field already filled out with name of the item I am going to edit-->
+	<dt>Description:</dt>
+		<dd><textarea name = 'description' rows='5' cols='40' placeholder = '{{item.description }}'></textarea></dd>
+	<dt>Price:</dt>
+		<dd><input type = 'text' size = '8' name='price' placeholder = '{{item.price}}'></dd>
+	<dt>Course:</dt>
+
+	{% if item.course == 'Appetizier' %}
+		<dd><input type ='radio' name='course' value='Appetizer'checked >Appetizer</dd>
+	{%else%}
+	<dd><input type ='radio' name='course' value='Appetizer' >Appetizer</dd>
+    {% endif %}
+
+    {% if item.course == 'Entree' %}
+       <dd><input type ='radio' name='course' value='Entree' checked>Entree</dd>
+
+    {%else%}
+		<dd><input type ='radio' name='course' value='Entree'>Entree</dd>
+    {% endif %}
+
+	{% if item.course == 'Dessert'%}
+		<dd><input type ='radio' name='course' value='Dessert'checked >Dessert</dd>
+
+	{% else %}
+	   <dd><input type ='radio' name='course' value='Dessert'>Dessert</dd>
+
+	{% endif %}
+
+
+	{%if item.course =='Beverage'%}
+		<dd><input type ='radio' name='course' value='Beverage'checked >Beverage</dd>
+	{% else %}
+		<dd><input type ='radio' name='course' value='Beverage'>Beverage</dd>
+	{% endif %}
+
+
+</dl>
+
+
+<input type='submit' value='Edit'>
+
+<a href = '{{url_for('restaurantMenu', restaurant_id = item.restaurant_id)}}'> Cancel </a> <!-- Create a link to cancel-->
+</form>
+</body>
+</html>
