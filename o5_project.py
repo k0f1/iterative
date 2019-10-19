@@ -132,7 +132,7 @@ def showRestaurantsJSON():
 	restaurants = session.query(Restaurant).all()
 	# But instead of returning a template, I will return this jsonify class
 	# and use this loop to serialize all of my database entries.
-	return jsonify(Restaurants = [r.serialize() for r in restaurants])
+	return jsonify(Restaurants = [r.serialize for r in restaurants])
 	# The quote infron of serialize is because we are acessing an instance method.
 
 
@@ -146,7 +146,7 @@ def restaurantMenuJSON(restaurant_id):
 	"""Making all Dishes API Endpoint (GET Request)"""
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	items = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
-	return jsonify(MenuItems=[i.serialize() for i in items]) # Returns all menu items of the restaurant we are looking at.
+	return jsonify(MenuItems=[i.serialize for i in items]) # Returns all menu items of the restaurant we are looking at.
 
 # Add a menu item API Endpoint Here
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON')
@@ -155,10 +155,9 @@ def menuItemJSON(restaurant_id, menu_id): # Becuase both args are in the method
 	menuItem = session.query(MenuItem).filter_by(id = menu_id).one()
 	# Then perform a query to get one menu ID that I want to get
 	# information about. Then jsonify that menu item, but serializing it first.
-	return jsonify(MenuItem = menuItem.serialize())
+	return jsonify(MenuItem = menuItem.serialize)
 
 # Show all restaurants
-@app.route('/')
 @app.route('/restaurants')
 def showRestaurants():
 	# Add CRUD Functionality
