@@ -3,13 +3,30 @@
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 	</head>
 <body>
+	<header>
+		<h1>Restaurants</h1>
+	</header>
 
-<h1>Restaurants</h1>
+	<div class ='flash'>
+		<!--Begining of flash messages code-->
+		{% with messages = get_flashed_messages() %} <!--with - codes are a block that does some automatic clean up, when the block is exited. The get_flashed_messages() is going to return an array of messages that will get stored in this variable, called messages-->
 
-<div class = 'pane'>
-{% for restaurant in restaurants %}
+		{% if messages %}
 
-	<div>
+		<ul>
+			{% for message in messages %} <!--We loop through array of messages-->
+			<li><strong> {{message}} </strong></li> <!--If it is not empty, we print it out to our HTML document inside an unordered list.-->
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+		<!--End of flash messages code-->
+
+	</div>
+
+	<div class = 'pane'>
+
+		{% for restaurant in restaurants %}
 
 		<a href = "{{url_for('restaurantMenu', restaurant_id = restaurant.id)}}"> <h3>{{restaurant.name}}</h3></a> <!--In the template, restaurant_id = restaurant_id in the Python code should be restaurant_id = restaurant.id -->
 
@@ -19,11 +36,11 @@
 
 		<p> <a href = "{{url_for('deleteRestaurant', restaurant_id = restaurant.id)}}">Delete Restaurant</a> </p>
 
+
+
+
+	{% endfor %}
 	</div>
-
-
-{% endfor %}
-</div>
 </body>
 
 </html>

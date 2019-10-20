@@ -3,14 +3,14 @@
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<div class = 'pane'>
   <div class= 'header'>
-    <h1>{{ restaurant.name}}</h1> <!--obtain result of a query-->
+    <h1>{{ restaurant.name }}</h1> <!--obtain result of a query-->
   </div>
 
   <div class = 'flash'>
     <!--Begining of flash messages code-->
-    {% with messages = get_flashed_messages() %} <!--with codes are a block that does some automatic clean up, when the block is exited. The get_flashed_messages() is going to return an array of messages that will get stored in this variable, called messages-->
+    {% with messages = get_flashed_messages() %} <!--with - codes are a block that does some automatic clean up, when the block is exited. The get_flashed_messages() is going to return an array of messages that will get stored in this variable, called messages-->
+
     {% if messages %}
 
     <ul>
@@ -24,10 +24,10 @@
 
   </div>
 
+<div class = 'pane'>
 
 <a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>
 Create New Item</a> <!--This is a link to the new page url of newmenuitem.html to access the page -->
-
 
 {% for i in items %} <!--Obtaining the result of a query-->
 
@@ -44,6 +44,7 @@ Create New Item</a> <!--This is a link to the new page url of newmenuitem.html t
       <p>{{i.description}}</p><!--Executing the output in my html page-->
     </div>
 
+
   <div class = 'editdeletepane'>
 
     <a href='{{url_for('editMenuItem', restaurant_id = restaurant.id, menu_id = i.id) }}'>Edit</a> <!--This is a method in python, executing output in html page -->
@@ -54,6 +55,7 @@ Create New Item</a> <!--This is a link to the new page url of newmenuitem.html t
 
 
 {% endfor %} <!--Indicating end of a loop since we cannot use indentation within html-->
+
 
 </div>
 </body>

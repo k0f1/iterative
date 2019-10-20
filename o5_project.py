@@ -171,28 +171,30 @@ def showRestaurants():
 
 @app.route('/restaurants/new', methods = ['GET', 'POST'])
 def newRestaurant():
-    # Add CRUD Functionality
-    # SQLAlchemy statements
-    if request.method == 'POST':
-        newRestaurant = Restaurant(name = request.form['name'])
-        session.add(newRestaurant)
-        session.commit()
-        # Using url_for method requires you to pass the function it serves
-        # and it parameters if any.
-        return redirect(url_for('showRestaurants')) # This function has no args.
-    else:
-        # return "This page will be for making a new restaurant"
-        return render_template('newRestaurant.html')
+	# Add CRUD Functionality
+	# SQLAlchemy statements
+	if request.method == 'POST':
+		newRestaurant = Restaurant(name = request.form['name'])
+		session.add(newRestaurant)
+		session.commit()
+		flash("New restaurant created")
+		# Using url_for method requires you to pass the function it serves
+		# and it parameters if any.
+		return redirect(url_for('showRestaurants')) # This function has no args.
+	else:
+		# return "This page will be for making a new restaurant"
+		return render_template('newRestaurant.html')
 
 
 @app.route('/restaurants/<int:restaurant_id>/edit')
 def editRestaurant(restaurant_id):
-    # Add CRUD Functionality
-    # SQLAlchemy statements
+	# Add CRUD Functionality
+	# SQLAlchemy statements
 	editedRestaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'POST':
 		session.add(editedRestaurant)
 		session.commit()
+		flash("Restaurant successfully edited!")
 		return redirect(url_for('showRestaurants'))
 	else:
 		# return "This page will be for editing restaurant %s" %restaurant_id
@@ -201,12 +203,13 @@ def editRestaurant(restaurant_id):
 
 @app.route('/restaurants/<int:restaurant_id>/delete', methods = ['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
-    # Add CRUD Functionality
-    # SQLAlchemy statements
+	# Add CRUD Functionality
+	# SQLAlchemy statements
 	restaurantToDelete = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'POST':
 		session.delete(restaurantToDelete)
 		session.commit()
+		flash("Restaurant successfully deleted!")
 		return redirect(url_for('showRestaurants'))
 	else:
 		# return "This page will be for deleting restaurant %s" %restaurant_id
@@ -244,7 +247,7 @@ def newMenuItem(restaurant_id):
 		newItem = MenuItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], course = 	request.form['course'], restaurant_id = restaurant_id)
 		session.add(newItem)
 		session.commit()
-		flash("new menu item created!")
+		flash("New menu item created!")
 		return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 	else:
 		# To properly handle the GET request.
@@ -266,7 +269,7 @@ def editMenuItem(restaurant_id, menu_id):
 			editedItem.course =request.form['course']
 		session.add(editedItem)
 		session.commit()
-		flash("Menu Item has been edited")
+		flash("Menu item successfully edited!")
 		return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 	else:
 		return render_template('editMenuItem.html', restaurant_id = restaurant_id, menu_id = menu_id, item = editedItem)
@@ -278,7 +281,7 @@ def deleteMenuItem(restaurant_id, menu_id):
 	if request.method == 'POST':
 		session.delete(itemToDelete)
 		session.commit()
-		flash("Menu Item has been deleted")
+		flash("Menu item successfully deleted!")
 		return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 	else:# If it is a get request, I will go ahead and render that
 	# deleteMenuitem.html file with the item i want to delete.
