@@ -47,35 +47,37 @@
 # In my menu.html template, I will add code show in my menu.html
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
+# Create an instance of Flask class
+app = Flask(__name__)
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # Import these classes
 from database_setup import Base, Restaurant, MenuItem
 
-# Create these instances
-# 1. Create an instance of Flask class
-app = Flask(__name__)
 
-# 2. Create an instance of create_engine
+# Create an instance of create_engine
 # This lets our program know which database engine
 # we want to communicate with.
 engine = create_engine('sqlite:///restaurantmenu.db')
-
+Base.metadata.bind = engine
 # Then, lets bind the engine to the Base class
 # with the following command: Base.metadata.bind=engine.
 # This command just makes the connections
 # between our class definitions and the
 # corresponding tables within our database
-Base.metadata.bind = engine
 
-# 3. create a sessionmaker object/instance  called DBsession.
+# Create a sessionmaker object/instance  called DBsession.
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 # This establishes a link of communication
 # between our code executions and the engine
 # we have just created.
 # DBsession much like declarative Base is a class.
-DBSession = sessionmaker(bind=engine)
 
-# 4. Create an instance of DBsession class.
+
+# Create an instance of DBsession class.
 # In order to perform CRUD on our database,
 # SQLAlchemy executes database operations via
 # an interface called a session.
@@ -87,7 +89,7 @@ DBSession = sessionmaker(bind=engine)
 # I can do it by just calling a method from within session.
 # The BDsession object gives me a staging zone
 # for all of the objects loaded into a database session object.
-session = DBSession()
+
 
 @app.route('/')
 # The route decorator is used to bind
@@ -180,13 +182,13 @@ def newRestaurant():
 		flash("New restaurant created")
 		# Using url_for method requires you to pass the function it serves
 		# and it parameters if any.
-		return redirect(url_for('showRestaurants')) # This function has no args.
+		return redirect(url_for('showRestaurants', newRestaurant = newRestaurant)) # This function has no variable path for the url rule.
 	else:
 		# return "This page will be for making a new restaurant"
 		return render_template('newRestaurant.html')
 
 
-@app.route('/restaurants/<int:restaurant_id>/edit')
+@app.route('/restaurants/<int:restaurant_id>/edit', methods = ['GET', 'POST'])
 def editRestaurant(restaurant_id):
 	# Add CRUD Functionality
 	# SQLAlchemy statements
@@ -210,7 +212,8 @@ def deleteRestaurant(restaurant_id):
 		session.delete(restaurantToDelete)
 		session.commit()
 		flash("Restaurant successfully deleted!")
-		return redirect(url_for('showRestaurants'))
+		return redirect(url_for('showRestaurants'))# This method has no
+		# variable path for the url rule here.
 	else:
 		# return "This page will be for deleting restaurant %s" %restaurant_id
 		return render_template('deleteRestaurant.html', restaurant_id  = restaurant_id, restaurant = restaurantToDelete)
@@ -233,7 +236,7 @@ def restaurantMenu(restaurant_id):
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	items = session.query(MenuItem).filter_by(restaurant_id=restaurant_id)
 	# Instead of returning a string output, I will return render_template.
-	return render_template('menu.html', restaurant=restaurant, items = items, restaurant_id = restaurant_id) # Since I am querying on my restaurant
+	return render_template('menu.html', restaurant=restaurant, items = items) # Since I am querying on my restaurant
 	# and menu items table,
 	# I will path my queries into the template, so that my escape code has
 	# access to these variables. These are the variables from
@@ -292,5 +295,5 @@ def deleteMenuItem(restaurant_id, menu_id):
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'
 	app.debug = True
-	app.run(threaded=False)
+	#app.run(threaded=False)
 	app.run(host='0.0.0.0', port=5000)

@@ -42,7 +42,7 @@ class MenuItem(Base):
     # Mapping
     name = Column(String(80), nullable = False)
     id = Column(Integer, primary_key = True)
-    course = Column(String(250))
+    course = Column(String(25))
     description = Column(String(250))
     price = Column(String(8)) # This needed two decimal places ie Column(Decimal(3,2))
     # ingredients = Column(String(20)) allergy ingredient list

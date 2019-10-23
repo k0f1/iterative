@@ -321,7 +321,7 @@ menuItem2 = MenuItem(name = "Cachapa", description = "Golden brown, corn-based V
 session.add(menuItem2)
 session.commit()
 
-
+# Menu for State Bird Provisions
 restaurant1 = Restaurant(name = "State Bird Provisions")
 session.add(restaurant1)
 session.commit()
