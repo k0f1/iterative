@@ -8,35 +8,33 @@
 	</header>
 
 	<div class = 'flash'>
-		<!--Begining of flash messages code-->
-		{% with messages = get_flashed_messages() %} <!--with - codes are a block that does some automatic clean up, when the block is exited. The get_flashed_messages() is going to return an array of messages that will get stored in this variable, called messages-->
+    <!--Begining of flash messages code-->
+    {% with messages = get_flashed_messages() %} <!--with - codes are a block that does some automatic clean up, when the block is exited. The get_flashed_messages() is going to return an array of messages that will get stored in this variable, called messages-->
 
-		{% if messages %}
+    {% if messages %}
 
-		<ul>
-			{% for message in messages %} <!--We loop through array of messages-->
-			<li><strong> {{message}} </strong></li> <!--If it is not empty, we print it out to our HTML document inside an unordered list.-->
-			{% endfor %}
-		</ul>
-		{% endif %}
-		{% endwith %}
-		<!--End of flash messages code-->
+    <ul>
+      {% for message in messages %} <!--We loop through array of messages-->
+      <li><strong> {{message}} </strong></li> <!--If it is not empty, we print it out to our HTML document inside an unordered list.-->
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <!--End of flash messages code-->
 
-	</div>
+  </div>
 
 	<div class = 'pane'>
 
 		{% for restaurant in restaurants %}
 
-		<a href = "{{url_for('restaurantMenu', restaurant_id = restaurant.id)}}"> <h3>{{restaurant.name}}</h3></a> <!--In the template, restaurant_id = restaurant_id in the Python code should be restaurant_id = restaurant.id -->
+			<a href = "{{url_for('restaurantMenu', restaurant_id = restaurant.id)}}"> <h3>{{restaurant.name}}</h3></a> <!--In the template, restaurant_id = restaurant_id in the Python code should be restaurant_id = restaurant.id -->
 
-		<p> <a href = "{{url_for('newRestaurant')}}">Create New Restaurant</a>
+			<p> <a href = "{{url_for('newRestaurant')}}">Create New Restaurant</a>
 
-		<p><a href = "{{url_for('editRestaurant', restaurant_id = restaurant.id)}}">Edit Restaurant</a></p>
+			<p><a href = "{{url_for('editRestaurant', restaurant_id = restaurant.id)}}">Edit Restaurant</a></p>
 
-		<p> <a href = "{{url_for('deleteRestaurant', restaurant_id = restaurant.id)}}">Delete Restaurant</a> </p>
-
-
+			<p> <a href = "{{url_for('deleteRestaurant', restaurant_id = restaurant.id)}}">Delete Restaurant</a> </p>
 
 
 	{% endfor %}
